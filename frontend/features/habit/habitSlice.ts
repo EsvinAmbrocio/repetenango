@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchHabits } from './habitAPI';
 
-type Habit = {
-    id: string,
+export type Habit = {
+    _id: string,
     title: string,
     description: string
-    createdAt: string
+    created_at: string
 }
 
 type HabitState = {
