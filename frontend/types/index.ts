@@ -6,6 +6,10 @@ export enum HttpMethod {
     PATCH = 'PATCH'
 }
 
+
+export type ResponseHttp = {
+  message: string
+}
 export class ApiError extends Error {
     status: number;
     data: unknown;

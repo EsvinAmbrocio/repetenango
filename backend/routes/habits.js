@@ -4,8 +4,8 @@ const router = express.Router();
 const Habit = require('../models/Habit');
 
 router.get('/', async (req, res) => {
-    const habits = await Habit.find()
-    res.json(habits)
+  const habits = await Habit.find({})
+  res.json(habits)
 })
 
 router.post('/', async (req, res) => {
@@ -30,15 +30,25 @@ router.delete('/:id', async (req, res) => {
 
 router.patch('/markasdone/:id', async (req, res) => {
   try {
-    const habit = await Habit.findById(res.params.id)
+    const habit = await Habit.findById(req.params.id)
     habit.last_done = new Date()
-    if(timeDifferenceInHours(habit.last_done, habit.last_updated)) {
+    let message = 'Habit marked as done'
+    if(timeDifferenceInHours(habit.last_done, habit.last_updated) < 24) {
       habit.last_updated = new Date()
       habit.days = timeDifferenceInDays(habit.last_done, habit.started_at)
-      habit.save()
-    } 
-    console.log(habit)
+      
+    } else {
+      habit.days = 1
+      habit.started_at = new Date();
+      habit.last_updated = new Date()
+      message = 'Habit restarted'
+    }
+    habit.save()
+    res.status(200).json({
+      message
+    })
   } catch ( e ) {
+    console.log(e)
     res.status(500).json({
       message: 'Error updating Habit'
     })
