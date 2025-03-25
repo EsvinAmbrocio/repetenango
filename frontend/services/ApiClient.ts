@@ -108,6 +108,10 @@ export class ApiClient {
         return this.request<T>(HttpMethod.PUT, path, data, params, headers);
     }
 
+    patch<T>(path: string, data: RequestData, params: Params = {}, headers: Headers = {}): Promise<T> {
+        return this.request<T>(HttpMethod.PATCH, path, data, params, headers);
+    }
+
     delete<T>(path: string, params: Params = {}, headers: Headers = {}): Promise<T> {
         return this.request<T>(HttpMethod.DELETE, path, null, params, headers);
     }

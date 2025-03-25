@@ -12,7 +12,23 @@ const habitSchema = new mongoose.Schema({
   created_at: {
     type: Date,
     default: Date.now
-  }
+  },
+  last_updated: {
+    type: Date,
+    default: Date.now
+  },
+  last_done: {
+    type: Date,
+    default: Date.now
+  },
+  days: {
+    type: Number,
+    default: 1
+  },
+  started_at: {
+    type: Date,
+    default: Date.now
+  },
 })
 
 module.exports = mongoose.model('Habit', habitSchema)
