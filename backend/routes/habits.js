@@ -1,17 +1,62 @@
 const express =  require('express');
 const router = express.Router();
-
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 const Habit = require('../models/Habit');
 
+const authenticateToken = (req, res, next) => {
+  const token = String(req.headers['authorization'] ?? '')
+
+  if(!token) {
+    return res.status(401).json({
+      message: "Acceso denegado. Token no proporcionado."
+    })
+  }
+  
+  try {
+    const tokenWithoutBearer = token.replace('Bearer ', '')
+    const verified = jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET) 
+    req.user = verified
+    next()
+  } catch (error) {
+    console.log(error)
+    return res.status(403).json({
+      message: "Acceso denegado. Token inválido."
+    })
+  }
+};
+router.use(authenticateToken) 
+
 router.get('/', async (req, res) => {
-  const habits = await Habit.find({})
-  res.json(habits)
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        message: "Acceso denegado. Token no proporcionado."
+      })
+    } 
+    const user_id = req.user.id
+    const habits = await Habit.find({
+      user_id: new mongoose.Types.ObjectId(user_id)
+    })
+    res.json(habits)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      message: "Error fetching habits"
+    })
+  }
 })
 
 router.post('/', async (req, res) => {
   try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({
+        message: "Acceso denegado. Token no proporcionado."
+      })
+    } 
+    const user_id = mongoose.Types.ObjectId(req.user.id)
     const {title, description} = req.body
-    const habit = new Habit({title, description})
+    const habit = new Habit({title, description, user_id})
     await habit.save()
     res.json(habit)
   } catch (error) {
