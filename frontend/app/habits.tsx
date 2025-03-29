@@ -6,8 +6,8 @@ type Habits = {
     habits: Habit[];
 }
 const handleMarkAsDone = async (dispatch: AppDispatch, habitId: string) => {
-  dispatch(fetchMarkAsDoneThunk(habitId))
-  dispatch(fetchHabitsThunk())
+  await dispatch(fetchMarkAsDoneThunk(habitId))
+  await dispatch(fetchHabitsThunk())
 }
 export default function Habits({ habits }: Habits) {
   const calculateProgress = (days:number):number => {
