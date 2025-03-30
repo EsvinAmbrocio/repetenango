@@ -46,43 +46,43 @@ export default function Home() {
   return (
     <div className="items-center justify-items-center min-h-screen bg-gray-100">
       {!user && (
-            <div className="flex flex-col justify-center items-center min-h-screen">
-              <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-              <fieldset>
-              <legend className="text-lg font-semibold mb-4 text-center">Add new Habit</legend>
+        <div className="flex flex-col justify-center items-center min-h-screen">
+          <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+            <fieldset>
+              <legend className="text-lg font-semibold mb-4 text-center">Login / Register</legend>
               <div className="space-y-4">
-              <label className="block">
-                <span className="text-gray-700">Login / Register</span>
-                <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                />
-              </label>
-              <label className="block">
-                <span className="text-gray-700">Password</span>
-                <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                />
-              </label>
+                <label className="block">
+                  <span className="text-gray-700">Username</span>
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-gray-700">Password</span>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  />
+                </label>
               </div>
-              </fieldset>
-              <div className="mt-6 flex justify-between">
+            </fieldset>
+            <div className="mt-6 flex justify-between">
               <button className="px-4 py-2 bg-blue-500 text-white rounded-md" onClick={handleLogin}>
-              Login
+                Login
               </button>
               <button className="px-4 py-2 bg-green-500 text-white rounded-md" onClick={handleRegister}>
-              Register
+                Register
               </button>
-              </div>
-              </div>
             </div>
+          </div>
+        </div>
       )}
       {user && (
         <div>
