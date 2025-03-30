@@ -1,11 +1,7 @@
-import { ApiClient } from "@/services/ApiClient";
 import { Habit } from "./habitSlice";
 import { ResponseHttp } from "@/types";
+import { backendClient } from "@/services/backendApi";
 
-
-const base_url_api = process.env.NEXT_PUBLIC_APP_URL_API || '';
-
-const backendClient = new ApiClient(base_url_api);
 
 export const fetchHabits = async ():Promise<Habit[]> => {
     const response:Habit[] = await backendClient.get('/habits');
@@ -13,6 +9,14 @@ export const fetchHabits = async ():Promise<Habit[]> => {
 }
 
 export const fetchMarkAsDone = async (habitId: string):Promise<ResponseHttp> => {
-    const response = await backendClient.patch(`/habits/markasdone/${habitId}`,{});
+    const response:ResponseHttp = await backendClient.patch(`/habits/markasdone/${habitId}`,{});
     return response
+}
+
+export const fetchCreateHabit = async (title: string, description: string):Promise<Habit> => {
+  const response:Habit = await backendClient.post('/habits', {
+    title,
+    description
+  });
+  return response
 }

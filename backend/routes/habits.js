@@ -54,12 +54,13 @@ router.post('/', async (req, res) => {
         message: "Acceso denegado. Token no proporcionado."
       })
     } 
-    const user_id = mongoose.Types.ObjectId(req.user.id)
+    const user_id = new mongoose.Types.ObjectId(req.user.id)
     const {title, description} = req.body
     const habit = new Habit({title, description, user_id})
     await habit.save()
     res.json(habit)
   } catch (error) {
+    console.log(error)
     res.status(400).json({message: "Error creating habit"})
   }
 })
