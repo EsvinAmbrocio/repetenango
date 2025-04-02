@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchHabits, fetchMarkAsDone } from './habitAPI';
+import { fetchCreateHabit, fetchHabits, fetchMarkAsDone } from './habitAPI';
 import { ApiError } from '@/types';
+import { getErrorMessage } from '@/utils/error';
 
 export type Habit = {
   _id: string,
@@ -11,6 +12,11 @@ export type Habit = {
   last_done: Date,
   days: number,
   started_at: Date
+}
+
+type createHabitThunkParams = {
+  title: string;
+  description: string;
 }
 
 type HabitState = {
@@ -28,17 +34,7 @@ const initialState: HabitState = {
   status: {},
   error: {}
 }
-const getErrorMessage = (error: unknown): string => {
-  if (error instanceof ApiError) {
-    const message: string = error.message;
-    const data: ResponseHttp = error.data as ResponseHttp;
-    return String(data?.message ?? message);
-  } else if (error instanceof Error) {
-    return error.message;
-  } else {
-    return 'Error desconocido';
-  }
-};
+
 export const fetchHabitsThunk = createAsyncThunk("habit/fetchHabits", async () => {
   const response = await fetchHabits();
   return response
@@ -54,6 +50,14 @@ export const fetchMarkAsDoneThunk = createAsyncThunk("habit/fetchMarkAsDone", as
   } catch (error) {
     const responseMesssage = getErrorMessage(error);
     return rejectWithValue(responseMesssage)
+  }
+});
+export const fetchCreateHabitThunk = createAsyncThunk("habit/fetchCreateHabit", async (params:createHabitThunkParams, { rejectWithValue }) => {
+  try {
+    const response = await fetchCreateHabit(params.title, params.description);
+    return response
+  } catch (error) {
+    return rejectWithValue(getErrorMessage(error));
   }
 });
 
@@ -80,6 +84,8 @@ const habitSlice = createSlice({
     }).addCase(fetchMarkAsDoneThunk.rejected, (state, action) => {
       state.status[action.meta.arg] = 'failed'
       state.error[action.meta.arg] = action.payload as string
+    }).addCase(fetchCreateHabitThunk.fulfilled, (state, action) => {
+      state.habits.push(action.payload)
     })
   }
 })

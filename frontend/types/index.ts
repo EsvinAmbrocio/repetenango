@@ -10,6 +10,11 @@ export enum HttpMethod {
 export type ResponseHttp = {
   message: string
 }
+
+export type ResponseHttpLogin = {
+  message: string
+  token: string
+}
 export class ApiError extends Error {
     status: number;
     data: unknown;

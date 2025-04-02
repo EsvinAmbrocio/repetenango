@@ -12,8 +12,9 @@ const habitsRouter = require('./routes/habits');
 
 var app = express();
 
+const urlFrontend = String(process.env.APP_URL_FRONTEND ?? '')
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: urlFrontend,
   credentials: true
 }));
 // view engine setup
