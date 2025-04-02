@@ -9,6 +9,7 @@ const cors = require("cors");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const habitsRouter = require('./routes/habits');
+const { error } = require('console');
 
 var app = express();
 
@@ -44,7 +45,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({'error': error.message});
 });
 
 module.exports = app;
