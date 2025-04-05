@@ -3,6 +3,7 @@ import { fetchLoginUser, fetchRegisterUser } from './userAPI';
 import { error } from 'console';
 import { getErrorMessage } from '@/utils/error';
 import { backendClient } from '@/services/backendApi';
+import { setCookie } from 'cookies-next';
 
 interface UserThunk {
   username: string;
@@ -38,6 +39,7 @@ export const fetchLoginUserThunk = createAsyncThunk("user/fetchLoginUser", async
   try {
     const response = await fetchLoginUser(user.username, user.password);
     backendClient.setGlobalHeader('authorization', `Bearer ${response.token}`);
+    setCookie('habitToken', response.token)
     return response;
   } catch (error) {
     return rejectWithValue(getErrorMessage(error));
