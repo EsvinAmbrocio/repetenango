@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
  * @param {Function} props.onClickMarketAsDone - The function to be called when the user clicks the "Mark as done" button.
  * @returns {JSX.Element} A JSX element representing the habit card.
  */
-export default function HabitCard({ habit, progress, onClickMarketAsDone }: { habit: Habit, progress:number, onClickMarketAsDone: Function }) {
+export default function HabitCard({ habit, progress, onClickMarketAsDone }: { habit: Habit, progress:number, onClickMarketAsDone: (dispatch:AppDispatch, id:string) =>  void}) {
   const dispatch = useDispatch<AppDispatch>();
   const status = useSelector((state: AppState) => state.habit.status);
   const error = useSelector((state: AppState) => state.habit.error);

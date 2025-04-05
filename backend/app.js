@@ -1,4 +1,5 @@
 require('./config/database')
+require('dotenv').config()
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -18,9 +19,6 @@ app.use(cors({
   origin: urlFrontend,
   credentials: true
 }));
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());

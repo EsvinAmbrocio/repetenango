@@ -1,7 +1,7 @@
 import { fetchCreateHabitThunk, fetchHabitsThunk, fetchMarkAsDoneThunk, Habit } from "@/features/habit/habitSlice";
 import HabitComponent from "./habit";
-import { AppDispatch, AppState } from "@/Redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "@/Redux/store";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 type Habits = {
   habits: Habit[];
@@ -15,10 +15,9 @@ export default function Habits({ habits }: Habits) {
     return Math.min((days / 66) * 100, 100)
   }
   const dispatch = useDispatch<AppDispatch>();
-  const user = useSelector((state: AppState) => state.user.user);
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const handleHabit = async (event) => {
+  const handleHabit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault()
     if(!title || !description) return
     await dispatch(fetchCreateHabitThunk({ title, description }))

@@ -24,6 +24,9 @@ export class ApiClient {
         if(String(baseUrl).trim().length === 0) {
             throw new Error('baseUrl cannot be empty');
         }
+        if(!String(baseUrl).endsWith('/')){
+          baseUrl += '/'
+        }
         this.baseUrl = baseUrl;
     }
 
@@ -43,6 +46,10 @@ export class ApiClient {
         headers: Headers = {},
         customOptions: RequestInit = {}
     ): Promise<T> {
+
+        if(String(path ?? '').startsWith('/')){
+          path = path.replace("/", "")
+        }
         const url = new URL(path, this.baseUrl);
 
         Object.entries(params).forEach(([key, value]) => {
